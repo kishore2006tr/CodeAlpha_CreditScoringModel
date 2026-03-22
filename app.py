@@ -51,23 +51,35 @@ def load_model():
     if 'Unnamed: 0' in df.columns:
         df.drop('Unnamed: 0', axis=1, inplace=True)
     
-    # Fill missing values
-    df.fillna(df.mode().iloc[0], inplace=True)
+    # Fill all missing values first
+    for col in df.columns:
+        if df[col].dtype == 'object':
+            df[col] = df[col].fillna('Unknown')
+        else:
+            df[col] = df[col].fillna(df[col].median())
+    
+    # Convert categorical to numeric
+    le_dict = {}
+    categorical_cols = df.select_dtypes(include=['object']).columns
+    for col in categorical_cols:
+        le = LabelEncoder()
+        df[col] = le.fit_transform(df[col])
+        le_dict[col] = le
     
     # Create target variable
     median_credit = df['Credit amount'].median()
     median_duration = df['Duration'].median()
     df['Risk'] = np.where((df['Credit amount'] > median_credit) & (df['Duration'] > median_duration), 'bad', 'good')
     
-    # Convert categorical to numeric
-    le = LabelEncoder()
-    categorical_cols = df.select_dtypes(include=['object']).columns
-    for col in categorical_cols:
-        df[col] = le.fit_transform(df[col])
-    
     # Prepare features and target
     X = df.drop('Risk', axis=1)
     y = df['Risk'].map({'good': 0, 'bad': 1})
+    
+    # Double-check for any remaining NaN values
+    print(f"Target variable NaN count: {y.isna().sum()}")
+    if y.isna().any():
+        y = y.fillna(0)  # Default to good risk if any NaN
+        print("Filled NaN values in target")
     
     # Train model
     model = RandomForestClassifier(n_estimators=100, random_state=42)
@@ -77,7 +89,7 @@ def load_model():
     scaler = StandardScaler()
     X_scaled = scaler.fit_transform(X)
     
-    return model, scaler, le, df
+    return model, scaler, le_dict, df
 
 # Load the model
 model, scaler, label_encoder, training_data = load_model()
@@ -147,13 +159,18 @@ if submit_button:
     # Convert categorical to numeric using the same encoding
     for col in input_data.select_dtypes(include=['object']).columns:
         if col in training_data.columns:
-            # Use the same encoding as training data
-            unique_values = training_data[col].unique()
-            if input_data[col].iloc[0] in unique_values:
-                input_data[col] = label_encoder.fit_transform(input_data[col])
-            else:
-                # Handle unseen categories
-                input_data[col] = 0
+            # Handle missing values first
+            input_data[col] = input_data[col].fillna('Unknown')
+            # Use the corresponding encoder
+            if col in label_encoder:
+                le = label_encoder[col]
+                # Check if the value exists in training data
+                unique_values = training_data[col].unique()
+                if input_data[col].iloc[0] in unique_values:
+                    input_data[col] = le.transform(input_data[col])
+                else:
+                    # Handle unseen categories
+                    input_data[col] = 0
     
     # Scale features
     input_scaled = scaler.transform(input_data)
