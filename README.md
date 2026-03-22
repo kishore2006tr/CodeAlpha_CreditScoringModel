@@ -49,16 +49,24 @@ venv\Scripts\activate  # On Windows
 
 3. Install dependencies:
 ```bash
-pip install pandas numpy scikit-learn
+pip install pandas numpy scikit-learn streamlit
 ```
 
 ## 🏃‍♂️ Usage
 
+### Option 1: Command Line
 Run the credit scoring model:
-
 ```bash
 python credit_model.py
 ```
+
+### Option 2: Web Interface (Recommended)
+Launch the interactive web application:
+```bash
+streamlit run app.py
+```
+
+The web interface will open in your browser at `http://localhost:8501`
 
 ## 📈 Model Performance
 
@@ -88,6 +96,7 @@ The current model achieves the following performance metrics:
 ```
 CodeAlpha_CreditScoringModel/
 ├── credit_model.py      # Main model implementation
+├── app.py              # Streamlit web interface
 ├── data.csv            # Dataset
 ├── README.md           # Project documentation
 └── venv/               # Virtual environment
@@ -95,10 +104,13 @@ CodeAlpha_CreditScoringModel/
 
 ## 🔍 Key Features
 
+- **Interactive Web Interface**: User-friendly Streamlit application
 - **Automated Data Preprocessing**: Handles missing values and categorical encoding
 - **Feature Scaling**: Standardizes numerical features for optimal performance
 - **Comprehensive Evaluation**: Multiple metrics for thorough model assessment
 - **Risk Classification**: Binary classification for credit decision making
+- **Real-time Predictions**: Instant credit risk assessment
+- **Risk Factor Analysis**: Identifies potential risk factors in applications
 
 ## 🚀 Future Enhancements
 
@@ -106,8 +118,10 @@ CodeAlpha_CreditScoringModel/
 - [ ] Cross-validation implementation
 - [ ] Hyperparameter tuning
 - [ ] Additional classification algorithms comparison
-- [ ] Web interface for real-time predictions
+- [x] Web interface for real-time predictions ✅
 - [ ] Model interpretability using SHAP values
+- [ ] User authentication and data persistence
+- [ ] Batch prediction capabilities
 
 ## 📝 License
 
