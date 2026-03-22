@@ -115,7 +115,7 @@ This project is part of the CodeAlpha internship program.
 
 ## 👤 Author
 
-Created as part of CodeAlpha Data Science Internship
+Created as part of CodeAlpha Machine Learning Internship
 
 ---
 
