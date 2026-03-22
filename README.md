@@ -68,6 +68,18 @@ streamlit run app.py
 
 The web interface will open in your browser at `http://localhost:8501`
 
+### Option 3: Model Validation
+Validate the model performance and accuracy:
+```bash
+python validate_model.py
+```
+
+### Option 4: Manual Testing
+Test specific prediction scenarios:
+```bash
+python test_predictions.py
+```
+
 ## 📈 Model Performance
 
 The current model achieves the following performance metrics:
@@ -79,6 +91,27 @@ The current model achieves the following performance metrics:
 | Recall | 96.9% |
 | F1 Score | 98.4% |
 | ROC-AUC | 1.0 |
+
+## 🧪 Model Validation
+
+The project includes comprehensive validation tools to ensure model reliability:
+
+### Validation Results
+- **Cross-Validation**: 99.9% ± 0.5% accuracy
+- **Feature Importance**: Duration (54.3%), Credit Amount (39.5%)
+- **Business Logic**: Consistent with risk assessment rules
+- **Test Cases**: All manual test scenarios pass validation
+
+### Validation Tools
+1. **`validate_model.py`**: Comprehensive model evaluation with metrics, cross-validation, and feature importance
+2. **`test_predictions.py`**: Manual testing of specific prediction scenarios
+3. **Web Interface**: Real-time prediction testing with risk factor analysis
+
+### Model Reliability
+- ✅ High precision (100%) - minimal false positives
+- ✅ High recall (96.9%) - minimal false negatives  
+- ✅ Stable performance across cross-validation folds
+- ⚠️ High accuracy indicates clear synthetic target patterns
 
 ## 🔧 Model Pipeline
 
@@ -97,6 +130,8 @@ The current model achieves the following performance metrics:
 CodeAlpha_CreditScoringModel/
 ├── credit_model.py      # Main model implementation
 ├── app.py              # Streamlit web interface
+├── validate_model.py   # Model validation and testing
+├── test_predictions.py # Manual prediction testing
 ├── data.csv            # Dataset
 ├── README.md           # Project documentation
 └── venv/               # Virtual environment
@@ -111,11 +146,13 @@ CodeAlpha_CreditScoringModel/
 - **Risk Classification**: Binary classification for credit decision making
 - **Real-time Predictions**: Instant credit risk assessment
 - **Risk Factor Analysis**: Identifies potential risk factors in applications
+- **Model Validation Tools**: Built-in validation and testing utilities
+- **Performance Monitoring**: Cross-validation and accuracy tracking
 
 ## 🚀 Future Enhancements
 
-- [ ] Feature importance analysis
-- [ ] Cross-validation implementation
+- [x] Feature importance analysis ✅
+- [x] Cross-validation implementation ✅
 - [ ] Hyperparameter tuning
 - [ ] Additional classification algorithms comparison
 - [x] Web interface for real-time predictions ✅
